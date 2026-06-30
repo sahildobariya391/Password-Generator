@@ -2,11 +2,18 @@ const resultEl=document.getElementById('result')
 const lengthEl=document.getElementById('length')
 const uppercaseEl=document.getElementById('uppercase')
 const lowercaseEl=document.getElementById('lowercase')
+const lengthValue = document.getElementById("lengthValue");
 const numbersEl=document.getElementById('number')
 const symbolsEl=document.getElementById('symbol')
 const generateEl=document.getElementById('generate')
 const clipbordEl =document.getElementById('clipboard')
+// Show default value
+lengthValue.textContent = lengthEl.value;
 
+// Update value while moving the slider
+lengthEl.addEventListener("input", () => {
+    lengthValue.textContent = lengthEl.value;
+});
 
 const randomFunc = {
     lower:getRandomLowercase,
@@ -58,8 +65,24 @@ function generatePassword(lower ,upper ,number,symbol, length){
 
 
 }
+generateEl.addEventListener("click", () => {
+    const length = +lengthEl.value; // Value between 6 and 20
 
+    const password = generatePassword(
+        lowercaseEl.checked,
+        uppercaseEl.checked,
+        numbersEl.checked,
+        symbolsEl.checked,
+        length
+    );
 
+    resultEl.innerText = password;
+});
+
+clipbordEl.addEventListener("click", () => {
+    navigator.clipboard.writeText(resultEl.innerText);
+    alert("Password Copied!");
+});
 
 
 // To generate lowercase latters 97 to 122
